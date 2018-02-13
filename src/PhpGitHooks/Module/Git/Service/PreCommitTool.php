@@ -122,19 +122,6 @@ class PreCommitTool
                 );
             }
 
-            $phpCsResponse = $preCommitResponse->getPhpCs();
-
-            if (true === $phpCsResponse->isPhpCs()) {
-                $this->commandBus->handle(
-                    new PhpCsToolCommand(
-                        $phpFiles,
-                        $phpCsResponse->getPhpCsStandard(),
-                        $preCommitResponse->getErrorMessage(),
-                        $phpCsResponse->getIgnore()
-                    )
-                );
-            }
-
             $phpCsFixerResponse = $preCommitResponse->getPhpCsFixer();
 
             if (true === $phpCsFixerResponse->isPhpCsFixer()) {
@@ -147,6 +134,19 @@ class PreCommitTool
                         $phpCsFixerResponse->isPhpCsFixerSymfony(),
                         $phpCsFixerResponse->getPhpCsFixerOptions(),
                         $preCommitResponse->getErrorMessage()
+                    )
+                );
+            }
+
+            $phpCsResponse = $preCommitResponse->getPhpCs();
+
+            if (true === $phpCsResponse->isPhpCs()) {
+                $this->commandBus->handle(
+                    new PhpCsToolCommand(
+                        $phpFiles,
+                        $phpCsResponse->getPhpCsStandard(),
+                        $preCommitResponse->getErrorMessage(),
+                        $phpCsResponse->getIgnore()
                     )
                 );
             }
