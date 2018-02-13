@@ -124,19 +124,6 @@ class PreCommitToolHandler implements CommandHandlerInterface
                 );
             }
 
-            $phpCsResponse = $preCommitResponse->getPhpCs();
-
-            if (true === $phpCsResponse->isPhpCs()) {
-                $this->commandBus->handle(
-                    new PhpCsTool(
-                        $phpFiles,
-                        $phpCsResponse->getPhpCsStandard(),
-                        $preCommitResponse->getErrorMessage(),
-                        $phpCsResponse->getIgnore()
-                    )
-                );
-            }
-
             $phpCsFixerResponse = $preCommitResponse->getPhpCsFixer();
 
             if (true === $phpCsFixerResponse->isPhpCsFixer()) {
@@ -149,6 +136,19 @@ class PreCommitToolHandler implements CommandHandlerInterface
                         $phpCsFixerResponse->isPhpCsFixerSymfony(),
                         $phpCsFixerResponse->getPhpCsFixerOptions(),
                         $preCommitResponse->getErrorMessage()
+                    )
+                );
+            }
+
+            $phpCsResponse = $preCommitResponse->getPhpCs();
+
+            if (true === $phpCsResponse->isPhpCs()) {
+                $this->commandBus->handle(
+                    new PhpCsToolCommand(
+                        $phpFiles,
+                        $phpCsResponse->getPhpCsStandard(),
+                        $preCommitResponse->getErrorMessage(),
+                        $phpCsResponse->getIgnore()
                     )
                 );
             }
